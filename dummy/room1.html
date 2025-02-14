@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rooms</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="hotel1.html">Hotels</a>
+    <a href="room1.html">Rooms</a>
+  </header>
+
+  <div class="container">
+    <h2>Rooms</h2>
+
+    <!-- Filter Rooms by Status -->
+    <label for="roomStatusFilter">Filter by Room Status:</label>
+    <select id="roomStatusFilter">
+      <option value="All">All Rooms</option>
+      <option value="Available">Available</option>
+      <option value="Booked">Booked</option>
+      <option value="Cleaning">Cleaning</option>
+    </select>
+
+    <!-- Rooms Table -->
+    <table id="roomsTable">
+      <thead>
+        <tr>
+          <th>Room Name</th>
+          <th>Status</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic room rows will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="room1.js"></script>
+</body>
+</html>

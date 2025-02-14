@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotels</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="city.html">Cities</a>
+    <a href="room1.html">Rooms</a>
+    <a href="addrooms.html">Add Room</a>
+  </header>
+
+  <div class="container">
+    <h2>Hotels</h2>
+
+    <!-- Category Filter Dropdown -->
+    <label for="categoryFilter">Filter by Category:</label>
+    <select id="categoryFilter">
+      <option value="All">All Categories</option>
+      <option value="Luxury">Luxury</option>
+      <option value="Budget">Budget</option>
+      <option value="Boutique">Boutique</option>
+    </select>
+
+    <!-- Hotels Table -->
+    <table id="hotelsTable">
+      <thead>
+        <tr>
+          <th>Hotel Name</th>
+          <th>Category</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic hotel rows will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="hotel1.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+[
+    {
+      "id": 1,
+      "name": "Room 101",
+      "hotelId": 1,
+      "status": "Available",
+      "price": "$100"
+    },
+    {
+      "id": 2,
+      "name": "Room 102",
+      "hotelId": 1,
+      "status": "Booked",
+      "price": "$120"
+    },
+    {
+      "id": 3,
+      "name": "Room 201",
+      "hotelId": 2,
+      "status": "Cleaning",
+      "price": "$90"
+    }
+  ]
+  

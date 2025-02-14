@@ -1,0 +1,21 @@
+[
+    {
+      "id": 1,
+      "name": "Luxury Resort",
+      "category": "Luxury",
+      "location": "New York"
+    },
+    {
+      "id": 2,
+      "name": "Budget Inn",
+      "category": "Budget",
+      "location": "Los Angeles"
+    },
+    {
+      "id": 3,
+      "name": "Boutique Hotel",
+      "category": "Boutique",
+      "location": "Chicago"
+    }
+  ]
+  

@@ -76,7 +76,7 @@
 
 
   function populateRoomDropdown() {
-    fetch('APIs JAVA Backend', {
+    fetch('rooms.json', {
       method: 'POST',
       body: JSON.stringify({ action: 'addDropdown' }),
     })

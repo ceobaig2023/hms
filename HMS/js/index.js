@@ -28,7 +28,7 @@ function calculateRemainingTime(checkoutDate) {
 
 
 function fetchRooms() {
-    fetch('APIs JAVA Backend', {
+    fetch('json/rooms.json', {
         method: 'POST',
      
         body: JSON.stringify({ action: 'getRooms' }),
@@ -39,7 +39,7 @@ function fetchRooms() {
         tableBody.innerHTML = "";
 
         if (Array.isArray(data)) {
-            data.forEach(room => {
+            data.forEach((room, index) => {
                 const { daysLeft, hoursLeft } = calculateRemainingTime(room.checkout);
                 const formattedCheckoutDate = formatDate(new Date(room.checkout)); // Format checkout date
 
@@ -47,6 +47,12 @@ function fetchRooms() {
                 const statusColor = room.status === "Filled" ? "green" :
                                     room.status === "Exit Time" ? "red" :
                                     room.status === "Available" ? "orange" : "gray";
+
+
+                // Default cleaning status
+                let cleaningStatus = "Dirty"; 
+                let cleaningColor = "red"; // Default to red for "Dirty"
+
 
                 let row = `<tr>
                     <td class="room-name">${room.roomName}</td>
@@ -62,6 +68,18 @@ function fetchRooms() {
                     </td>
                     <td>${formattedCheckoutDate || 'N/A'}</td>
                     <td>${daysLeft} days ${hoursLeft} hours</td>
+
+                    <td>
+                        <span class="cleaning-status" id="cleaning-status-${index}" style="color: ${cleaningColor}; font-weight: bold;">
+                            ${cleaningStatus}
+                        </span>
+                        <button class="clean-btn" onclick="updateCleaningStatus(${index})">Click</button>
+                    </td>
+
+                    <!-- Feedback Column with Icon -->
+                    <td>
+                        <span class="feedback-icon" onclick="openFeedbackModal(${index})">📝</span>
+                    </td>
                 </tr>`;
                 tableBody.innerHTML += row;
             });
@@ -74,6 +92,47 @@ function fetchRooms() {
         let tableBody = document.getElementById("roomTableBody");
         tableBody.innerHTML = `<tr><td colspan="5">Failed to load rooms. Please try again later.</td></tr>`;
     });
+}
+
+
+let selectedRoomIndex = null; // To track which room's feedback is being written
+
+function openFeedbackModal(index) {
+    selectedRoomIndex = index;
+    document.getElementById("feedbackModal").style.display = "block";
+}
+
+function closeFeedbackModal() {
+    document.getElementById("feedbackModal").style.display = "none";
+    document.getElementById("feedbackText").value = ""; // Clear input field
+}
+
+function submitFeedback() {
+    const feedbackText = document.getElementById("feedbackText").value;
+    
+    if (!feedbackText.trim()) {
+        alert("Please enter your feedback.");
+        return;
+    }
+
+    alert(`Feedback for Room ${selectedRoomIndex + 101}: \n${feedbackText}`);
+    
+    closeFeedbackModal();
+}
+
+
+// Function to update room cleaning status
+function updateCleaningStatus(index) {
+    const statusElement = document.getElementById(`cleaning-status-${index}`);
+
+    // Toggle between Dirty (Red) and Clean (Green)
+    if (statusElement.textContent === "Dirty") {
+        statusElement.textContent = "Clean";
+        statusElement.style.color = "green";
+    } else {
+        statusElement.textContent = "Dirty";
+        statusElement.style.color = "red";
+    }
 }
 
 // Function to update room status

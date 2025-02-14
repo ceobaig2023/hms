@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-In</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html">Rooms</a>
+        <a href="rooms.html">Record</a>
+        <a href="addrooms.html">Add Room</a>
+        <a href="checkin.html">Check-In</a>
+        <a href="booking.html">Bookings</a>
+        <a href="blocked.html">Blocked Rooms</a>
+    </header>
+
+    <div class="container">
+        <h2>Active Bookings</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Room Number</th>
+                    <th>Check-out Date</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="bookedRoomsList"></tbody>
+        </table>
+    </div>
+    <script src="js/bookedRooms.js"></script>
+</body>
+</html>

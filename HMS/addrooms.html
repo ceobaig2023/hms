@@ -12,11 +12,19 @@
         <a href="rooms.html">Record</a>
         <a href="addrooms.html">Add Room</a>
         <a href="checkin.html">Check-In</a>
+        <a href="booking.html">Bookings</a>
+        <a href="blocked.html">Blocked Rooms</a>
     </header>
 
     <div class="container">
         <h2>Add New Rooms</h2>
         <form id="addRoomForm">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="hotel">Hotel:</label>
+            <input type="text" id="hotel" name="hotel" required>
+
             <label for="roomName">Room Name:</label>
             <input type="text" id="roomName" name="roomName" required>
 
@@ -30,8 +38,8 @@
             <label for="capacity">Capacity:</label>
             <div class="capacity-control">
                 <button type="button" id="decreaseCapacity">-</button>
-                <input type="number" id="capacity" name="capacity" value="1" min="1" readonly>
                 <button type="button" id="increaseCapacity">+</button>
+                <input type="number" id="capacity" name="capacity" value="1" min="1" readonly>
             </div>
 
             <label for="price">Price (SAR):</label>
