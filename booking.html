@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-In</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .legend {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 15px;
+            font-weight: bold;
+        }
+        .legend span {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+        .green { background-color: green; }
+        .red { background-color: red; }
+        .orange { background-color: orange; }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="city.html">Cities</a>
+        <a href="hotel.html">Hotels</a>
+        <a href="index.html">Rooms</a>
+        <a href="rooms.html">Record</a>
+        <a href="addrooms.html">Add Room</a>
+        <a href="checkin.html">Check-In</a>
+        <a href="booking.html">Bookings</a>
+    </header>
+
+    <div class="container">
+        <div class="filters">
+            <label>From Date: <input type="date" id="fromDate"></label>
+            <label>To Date: <input type="date" id="toDate"></label>
+            <label>Filter City:
+                <select id="cityFilter"></select>
+            </label>
+            <label>Filter Hotel:
+                <select id="hotelFilter"></select>
+            </label>
+            <label>Month:
+                <select id="monthFilter">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </label>
+            <button onclick="refreshCalendar()">Refresh</button>
+        </div>
+
+        <!-- Color Legend -->
+        <div class="legend">
+            <div><span class="green"></span> Available to Book</div>
+            <div><span class="red"></span> Booked</div>
+            <div><span class="orange"></span> Cancelled Booking</div>
+        </div>
+
+        <table id="calendarTable">
+            <thead>
+                <tr>
+                    <th>Room</th>
+                    <script>
+                        for (let i = 1; i <= 30; i++) {
+                            document.write(`<th>${i}</th>`);
+                        }
+                    </script>
+                </tr>
+            </thead>
+            <tbody id="calendarBody"></tbody>
+        </table>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                fetch("json/city.json")
+                    .then(response => response.json())
+                    .then(data => {
+                        const cityFilter = document.getElementById("cityFilter");
+                        cityFilter.innerHTML = data.map(city => `<option value="${city.name}">${city.name}</option>`).join('');
+                    });
+
+                fetch("json/hotel.json")
+                    .then(response => response.json())
+                    .then(data => {
+                        const hotelFilter = document.getElementById("hotelFilter");
+                        hotelFilter.innerHTML = data.map(hotel => `<option value="${hotel.name}">${hotel.name}</option>`).join('');
+                    });
+
+                refreshCalendar();
+            });
+
+            function refreshCalendar() {
+                const month = parseInt(document.getElementById("monthFilter").value);
+                const year = new Date().getFullYear(); // You can modify this to allow year selection if needed
+
+                // Get the number of days in the selected month
+                const daysInMonth = new Date(year, month, 0).getDate();
+
+                // Update the table header to match the selected month
+                const calendarTable = document.getElementById("calendarTable");
+                let headerRow = `<tr><th>Room</th>`;
+                for (let i = 1; i <= daysInMonth; i++) {
+                    headerRow += `<th>${i}</th>`;  // Only display days up to the month's max days
+                }
+                headerRow += `</tr>`;
+                calendarTable.querySelector("thead").innerHTML = headerRow;
+
+                fetch("json/roombooking.json")
+                    .then(response => response.json())
+                    .then(data => {
+                        const calendarBody = document.getElementById("calendarBody");
+                        calendarBody.innerHTML = ""; // Clear previous data
+
+                        data.forEach(room => {
+                            let row = `<tr><td>${room.room}</td>`; // Display room number
+
+                            for (let i = 1; i <= daysInMonth; i++) {
+                                let cellClass = "green"; // Default: Available
+
+                                if (room.bookings.includes(i)) {
+                                    cellClass = "red"; // Booked
+                                } else if (room.filled.includes(i)) {
+                                    cellClass = "red"; // Filled (same as booked)
+                                } else if (room.canceled.includes(i)) {
+                                    cellClass = "orange"; // Cancelled Booking
+                                }
+
+                                row += `<td class="${cellClass}"></td>`; // Add the cell with appropriate class
+                            }
+                            row += "</tr>";
+                            calendarBody.innerHTML += row; // Append the row to the table
+                        });
+                    })
+                    .catch(error => console.error("Error loading room data:", error));
+            }
+
+            // Event listener to update table when the month is changed
+            document.getElementById("monthFilter").addEventListener("change", refreshCalendar);
+
+        </script>
+    </div>
+</body>
+
+</html>

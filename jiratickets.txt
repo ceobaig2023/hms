@@ -1,0 +1,54 @@
+https://docs.google.com/spreadsheets/d/15lT-8qug6kkePFV0ivsnxn4EZ52dokbJ1PDQAXLNLbk/edit?usp=sharing
+
+
+
+
+1. Button for Room Cleaning
+Story: As a hotel management user, I want to add a button for room cleaning so that I can easily mark rooms for cleaning from the hotels page. Tasks:
+
+Add a "Room Cleaning" button to the room section on the hotel page.
+Ensure the button can trigger the cleaning status update.
+Display status of room cleaning in the rooms list (e.g., "Pending," "In Progress," "Completed").
+2. Feedback Icon
+Story: As a hotel guest, I want to provide feedback easily through an icon, so I can quickly leave my review after my stay. Tasks:
+
+Add a "Feedback" icon next to rooms or on the hotel page.
+Ensure it triggers a feedback form/modal when clicked.
+Store feedback data in the database and display it on the hotel page.
+3. Divide By City (Separate Pages)
+Story: As a user, I want to filter hotels by city, so I can view hotels in a specific location and then view rooms for that hotel. Tasks:
+
+Create a city selection page to list available cities.
+For each city, link to a page that lists hotels in that city.
+Once a hotel is selected, navigate to a page displaying rooms for that hotel.
+Design UI for city, hotel, and room selection flow.
+4. Category by Hotels (Filter & Separate Pages)
+Story: As a user, I want to filter hotels by category, and view hotels and rooms in separate pages to easily navigate the platform. Tasks:
+
+Implement a category filter for hotels (e.g., "Luxury," "Budget," "Boutique").
+Link the filtered categories to a separate hotels page displaying matching hotels.
+Create a dropdown for rooms in each hotel page, with options for filtering or selecting available rooms.
+5. Block Booking (No Double Booking)
+Story: As a hotel manager, I want to prevent double bookings for the same room to ensure that the room is not overbooked. Tasks:
+
+Add logic to check for existing bookings before confirming a new one.
+Display a warning if a room is already booked for the selected time period.
+Add validation in the booking process to prevent double booking.
+6. Separate Pages for Booking and Blocked Time Periods
+Story: As a user, I want to view blocked time periods and bookings separately to manage my bookings and block times efficiently. Tasks:
+
+Create a separate page for viewing blocked time periods for rooms.
+Create a page to view active bookings and their respective times.
+Ensure booking conflicts are highlighted when viewing blocked periods.
+7. Cancellation Button (Inactive & Unblock Room)
+Story: As a user, I want to cancel a booking, set the room status to "Inactive," and unblock the room for further bookings. Tasks:
+
+Add a "Cancel" button to booking pages.
+Upon cancellation, mark the room as "Inactive" and unblock it.
+Update room availability accordingly.
+8. Notification API & Panel
+Story: As a hotel manager or guest, I want to receive notifications at the time of room checkout, so I can be informed about room status and actions. Tasks:
+
+Create a notification API to send notifications on room checkout.
+Design and implement a notification panel to display the notifications in the user interface.
+Allow users to view and manage notifications within the panel.
