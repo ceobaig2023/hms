@@ -7,7 +7,7 @@ function formatDate(dateString) {
   }
 
 function fetchData() {
-    fetch('APIs JAVA Backend', {
+    fetch('json/checkin.json', {
         method: 'POST',
         body: JSON.stringify({ action: 'getLogs' }),
     })
