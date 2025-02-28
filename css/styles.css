@@ -206,38 +206,53 @@ button[type="submit"]:hover {
 }
 
 
+/* Modal Styling */
 .modal {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    width: 40%;
+    border-radius: 10px;
+    position: relative;
     text-align: center;
 }
 
-.close-btn {
+.close {
     position: absolute;
-    right: 10px;
     top: 10px;
+    right: 15px;
+    font-size: 20px;
     cursor: pointer;
-    font-size: 18px;
+}
+
+/* Rating Stars */
+.rating span {
+    font-size: 25px;
+    cursor: pointer;
+    color: gray;
+}
+
+.rating span:hover,
+.rating span.selected {
+    color: gold;
 }
 
 textarea {
     width: 100%;
     height: 80px;
-    margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 5px;
+    margin-top: 10px;
+    resize: none;
 }
 
 .feedback-icon {
@@ -249,9 +264,9 @@ textarea {
 
 
 .back-icon {
-    position: fixed;
-    top: 60px;
-    left: 5px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
     background: #175b1a;
     color: white;
     padding: 8px 5px;

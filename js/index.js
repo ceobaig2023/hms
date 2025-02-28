@@ -25,8 +25,6 @@ function calculateRemainingTime(checkoutDate) {
     return { daysLeft, hoursLeft };
 }
 
-
-
 function fetchRooms() {
     fetch('json/rooms.json', {
         method: 'POST',
@@ -38,8 +36,15 @@ function fetchRooms() {
         let tableBody = document.getElementById("roomTableBody");
         tableBody.innerHTML = "";
 
+        // Retrieve deleted rooms from localStorage
+        let deletedRooms = JSON.parse(localStorage.getItem("deletedRooms")) || [];
+
         if (Array.isArray(data)) {
             data.forEach((room, index) => {
+
+                 // Skip rooms that are deleted
+                 if (deletedRooms.includes(room.rid)) return;
+
                 const { daysLeft, hoursLeft } = calculateRemainingTime(room.checkout);
                 const formattedCheckoutDate = formatDate(new Date(room.checkout)); // Format checkout date
 
@@ -79,10 +84,19 @@ function fetchRooms() {
                         </button>
                     </td>
 
-                    <!-- Feedback Column with Icon -->
                     <td>
                         <span class="feedback-icon" onclick="openFeedbackModal(${index})">📝</span>
                     </td>
+
+                    <td>
+                        <button 
+                            class="delete-btn"
+                            style="background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;" 
+                            onclick="deleteRoom('${room.rid}')">
+                            🗑
+                        </button>
+                    </td>
+
                 </tr>`;
                 tableBody.innerHTML += row;
             });
@@ -98,28 +112,71 @@ function fetchRooms() {
 }
 
 
-let selectedRoomIndex = null; // To track which room's feedback is being written
+let selectedRoomIndex = null;
+let selectedRating = 0;
 
 function openFeedbackModal(index) {
     selectedRoomIndex = index;
+    
+    // Get the room number dynamically
+    const roomNumber = 101 + index;  // Adjust this logic as needed
+    document.getElementById("roomNumber").value = roomNumber;
+    
     document.getElementById("feedbackModal").style.display = "block";
 }
 
 function closeFeedbackModal() {
     document.getElementById("feedbackModal").style.display = "none";
-    document.getElementById("feedbackText").value = ""; // Clear input field
+    
+    // Clear input fields
+    document.getElementById("hotelName").value = "";
+    document.getElementById("roomNumber").value = "";
+    document.getElementById("customerID").value = "";
+    document.getElementById("ratingValue").value = "";
+    document.getElementById("feedbackText").value = "";
+    
+    // Reset star rating
+    selectedRating = 0;
+    document.querySelectorAll(".rating span").forEach(star => star.classList.remove("selected"));
+}
+
+function setRating(stars) {
+    selectedRating = stars;
+    document.getElementById("ratingValue").value = stars;
+
+    // Highlight selected stars
+    const starsElements = document.querySelectorAll(".rating span");
+    starsElements.forEach((star, index) => {
+        if (index < stars) {
+            star.classList.add("selected");
+        } else {
+            star.classList.remove("selected");
+        }
+    });
 }
 
 function submitFeedback() {
-    const feedbackText = document.getElementById("feedbackText").value;
-    
-    if (!feedbackText.trim()) {
-        alert("Please enter your feedback.");
+    const hotelName = document.getElementById("hotelName").value.trim();
+    const roomNumber = document.getElementById("roomNumber").value.trim();
+    const customerID = document.getElementById("customerID").value.trim();
+    const feedbackText = document.getElementById("feedbackText").value.trim();
+
+    if (!hotelName || !roomNumber || !feedbackText || selectedRating === 0) {
+        alert("Please fill out all fields and select a rating.");
         return;
     }
 
-    alert(`Feedback for Room ${selectedRoomIndex + 101}: \n${feedbackText}`);
-    
+    const feedbackData = {
+        hotel: hotelName,
+        room: roomNumber,
+        customerID: customerID,
+        rating: selectedRating,
+        feedback: feedbackText
+    };
+
+    console.log("Feedback Submitted:", feedbackData);
+
+    // Close the modal after submission
     closeFeedbackModal();
 }
 
@@ -160,5 +217,19 @@ function updateStatus(rid, checkout) {
 });
 }
 
+function deleteRoom(roomId) {
+    if (confirm("Are you sure you want to delete this room?")) {
+        // Store deleted room ID in localStorage
+        let deletedRooms = JSON.parse(localStorage.getItem("deletedRooms")) || [];
+        deletedRooms.push(roomId);
+        localStorage.setItem("deletedRooms", JSON.stringify(deletedRooms));
 
+        // Remove the row from the table
+        const row = document.getElementById(`room-${roomId}`);
+        if (row) {
+            row.remove();
+            alert("Room deleted successfully!");
+        }
+    }
+}
 window.onload = fetchRooms;
